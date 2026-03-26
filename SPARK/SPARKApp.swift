@@ -1,32 +1,27 @@
-//
-//  SPARKApp.swift
-//  SPARK
-//
-//  Created by Yehosua Hércules on 24/03/26.
-//
-
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct SPARKApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    private let persistenceController: PersistenceController
+    @State private var appContainer: AppContainer
+    @State private var rootCoordinator: RootCoordinator
 
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    init() {
+        let persistenceController = PersistenceController()
+        let appContainer = AppContainer.live(persistenceController: persistenceController)
+        self.persistenceController = persistenceController
+        _appContainer = State(initialValue: appContainer)
+        _rootCoordinator = State(initialValue: RootCoordinator(container: appContainer))
+    }
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environment(appContainer)
+                .environment(rootCoordinator)
+                .preferredColorScheme(.light)
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(persistenceController.modelContainer)
     }
 }

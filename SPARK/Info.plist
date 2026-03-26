@@ -2,9 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>remote-notification</string>
-	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>SPARK uses the microphone so you can capture ideas by voice without interrupting your train of thought.</string>
 </dict>
 </plist>
